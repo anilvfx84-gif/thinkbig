@@ -1,0 +1,19 @@
+{
+  "overview": "ThinkBig is a two-sided idea marketplace where idea sellers publish business, agriculture, medicine, engineering and other ideas, and idea buyers browse, filter and contact sellers to invest.",
+  "features": [
+    "Sign in and choose an Idea Seller or Idea Buyer account",
+    "Sellers publish ideas with a field, business plan, funding target and documents",
+    "Buyers browse and filter ideas by field, stage and funding range",
+    "Buyers express interest and contact sellers directly",
+    "Seller dashboard with interest counts and interested buyers"
+  ],
+  "category": "marketplace",
+  "tags": [
+    "ideas",
+    "investment",
+    "marketplace",
+    "startups",
+    "business"
+  ],
+  "last_updated": "2026-10-04T18:34:35.853Z"
+}

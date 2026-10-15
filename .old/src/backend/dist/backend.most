@@ -1,0 +1,187 @@
+// Version: 4.0.0
+type AccessControlState__201339279 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__91647283>
+  };
+type AccountRole__105266325 = {#buyer; #seller};
+type AccountRole__274038431 = {#buyer; #seller};
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type DocumentId__446996092 = Nat;
+type DocumentId__906279589 = DocumentId__446996092;
+type Field__435800931 =
+  {
+    #agriculture;
+    #bio;
+    #business;
+    #education;
+    #energy;
+    #mechanicalEngineering;
+    #medicine;
+    #other;
+    #technology
+  };
+type Field__935242928 =
+  {
+    #agriculture;
+    #bio;
+    #business;
+    #education;
+    #energy;
+    #mechanicalEngineering;
+    #medicine;
+    #other;
+    #technology
+  };
+type IdeaDocument__590890332 =
+  {contentType : Text; id : Nat; name : Text; uploadedAt : Int; url : Text};
+type IdeaDocument__67263177 =
+  {
+    contentType : Text;
+    id : DocumentId__906279589;
+    name : Text;
+    uploadedAt : Timestamp__224799731;
+    url : Text
+  };
+type IdeaId__113114532 = IdeaId__195711080;
+type IdeaId__195711080 = Nat;
+type IdeaId__893914109 = IdeaId__195711080;
+type IdeaStatus__512290558 = {#draft; #published};
+type IdeaStatus__63181890 = {#draft; #published};
+type Idea__193744222 =
+  {
+    businessPlan : Text;
+    createdAt : Timestamp__224799731;
+    description : Text;
+    documents : [IdeaDocument__67263177];
+    field : Field__935242928;
+    fundingTarget : ?Nat;
+    id : IdeaId__893914109;
+    images : [IdeaDocument__67263177];
+    interestCount : Nat;
+    location : Text;
+    owner : UserId__688010649;
+    stage : Stage__466573925;
+    status : IdeaStatus__512290558;
+    summary : Text;
+    title : Text;
+    updatedAt : Timestamp__224799731;
+    viewCount : Nat
+  };
+type Idea__2370140 =
+  {
+    businessPlan : Text;
+    createdAt : Int;
+    description : Text;
+    documents : [IdeaDocument__590890332];
+    field : Field__435800931;
+    fundingTarget : ?Nat;
+    id : Nat;
+    images : [IdeaDocument__590890332];
+    interestCount : Nat;
+    location : Text;
+    owner : Principal;
+    stage : Stage__789557835;
+    status : IdeaStatus__63181890;
+    summary : Text;
+    title : Text;
+    updatedAt : Int;
+    viewCount : Nat
+  };
+type InterestId__796355010 = InterestId__804177326;
+type InterestId__804177326 = Nat;
+type Interest__1059507246 =
+  {
+    buyer : Principal;
+    createdAt : Int;
+    id : Nat;
+    ideaId : Nat;
+    message : Text
+  };
+type Interest__384138477 =
+  {
+    buyer : UserId__773597635;
+    createdAt : Timestamp__690642309;
+    id : InterestId__796355010;
+    ideaId : IdeaId__113114532;
+    message : Text
+  };
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__793188255 =
+  {
+    accessControlState : AccessControlState__201339279;
+    ideas : Map__230067015<Nat, Idea__2370140>;
+    interests : Map__230067015<Nat, Interest__1059507246>;
+    nextIdeaId : {var value : Nat};
+    nextInterestId : {var value : Nat};
+    profiles : Map__230067015<Principal, UserProfile__309530750>
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type OldActor__904324871 = {};
+type Stage__466573925 = {#concept; #prototype; #readyToLaunch};
+type Stage__789557835 = {#concept; #prototype; #readyToLaunch};
+type Timestamp__224799731 = Timestamp__301639476;
+type Timestamp__301639476 = Int;
+type Timestamp__432409533 = Timestamp__301639476;
+type Timestamp__690642309 = Timestamp__301639476;
+type UserId__158757552 = Principal;
+type UserId__423380635 = UserId__158757552;
+type UserId__688010649 = UserId__158757552;
+type UserId__773597635 = UserId__158757552;
+type UserProfile__190304746 =
+  {
+    bio : Text;
+    contactEmail : Text;
+    createdAt : Timestamp__432409533;
+    displayName : Text;
+    id : UserId__423380635;
+    roles : [AccountRole__274038431];
+    updatedAt : Timestamp__432409533
+  };
+type UserProfile__309530750 =
+  {
+    bio : Text;
+    contactEmail : Text;
+    createdAt : Int;
+    displayName : Text;
+    id : Principal;
+    roles : [AccountRole__105266325];
+    updatedAt : Int
+  };
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20261004_000000" : OldActor__904324871 -> NewActor__793188255
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable ideas :
+    {
+      var root : Node__204828119<Nat, Idea__193744222>;
+      var size : Nat__227979830
+    };
+  stable interests :
+    {
+      var root : Node__204828119<Nat, Interest__384138477>;
+      var size : Nat__227979830
+    };
+  stable nextIdeaId : {var value : Nat};
+  stable nextInterestId : {var value : Nat};
+  stable profiles :
+    {
+      var root : Node__204828119<Principal, UserProfile__190304746>;
+      var size : Nat__227979830
+    }
+};

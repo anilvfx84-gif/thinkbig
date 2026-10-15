@@ -1,0 +1,186 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type UserProfile = 
+ record {
+   bio: text;
+   contactEmail: text;
+   createdAt: Timestamp;
+   displayName: text;
+   id: UserId;
+   roles: vec AccountRole;
+   updatedAt: Timestamp;
+ };
+type UserId = principal;
+type Timestamp = int;
+type Stage = 
+ variant {
+   concept;
+   prototype;
+   readyToLaunch;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type InterestId = nat;
+type Interest = 
+ record {
+   buyer: UserId;
+   createdAt: Timestamp;
+   id: InterestId;
+   ideaId: IdeaId;
+   message: text;
+ };
+type IdeaStatus = 
+ variant {
+   draft;
+   published;
+ };
+type IdeaSort = 
+ variant {
+   mostViewed;
+   newest;
+ };
+type IdeaInput = 
+ record {
+   businessPlan: text;
+   description: text;
+   documents: vec IdeaDocument;
+   field: Field;
+   fundingTarget: opt nat;
+   images: vec IdeaDocument;
+   location: text;
+   stage: Stage;
+   summary: text;
+   title: text;
+ };
+type IdeaId = nat;
+type IdeaFilter = 
+ record {
+   field: opt Field;
+   maxFunding: opt nat;
+   minFunding: opt nat;
+   search: opt text;
+   sort: opt IdeaSort;
+   stage: opt Stage;
+ };
+type IdeaDocument = 
+ record {
+   contentType: text;
+   id: DocumentId;
+   name: text;
+   uploadedAt: Timestamp;
+   url: text;
+ };
+type Idea = 
+ record {
+   businessPlan: text;
+   createdAt: Timestamp;
+   description: text;
+   documents: vec IdeaDocument;
+   field: Field;
+   fundingTarget: opt nat;
+   id: IdeaId;
+   images: vec IdeaDocument;
+   interestCount: nat;
+   location: text;
+   owner: UserId;
+   stage: Stage;
+   status: IdeaStatus;
+   summary: text;
+   title: text;
+   updatedAt: Timestamp;
+   viewCount: nat;
+ };
+type Field = 
+ variant {
+   agriculture;
+   bio;
+   business;
+   education;
+   energy;
+   mechanicalEngineering;
+   medicine;
+   other;
+   technology;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type DocumentId = nat;
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type AccountRole = 
+ variant {
+   buyer;
+   seller;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  addCallerRole: (role: AccountRole) -> (UserProfile);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  createIdea: (input: IdeaInput, status: IdeaStatus) -> (Idea);
+  deleteIdea: (id: nat) -> (bool);
+  execute: (qJson: text) -> (Result) query;
+  expressInterest: (ideaId: nat, message: text) -> (Interest);
+  getApiDoc: () -> (text) query;
+  getCallerProfile: () -> (opt UserProfile) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getIdea: (id: nat) -> (opt Idea) query;
+  getProfile: (user: principal) -> (opt UserProfile) query;
+  isCallerAdmin: () -> (bool) query;
+  listInterestsForIdea: (ideaId: nat) -> (vec Interest) query;
+  listMyIdeas: () -> (vec Idea) query;
+  listMyInterests: () -> (vec Interest) query;
+  listPublishedIdeas: (filter: IdeaFilter) -> (vec Idea) query;
+  publishIdea: (id: nat) -> (opt Idea);
+  recordIdeaView: (id: nat) -> (opt Idea);
+  saveCallerProfile: (displayName: text, bio: text, contactEmail: text,
+   roles: vec AccountRole) -> (UserProfile);
+  schema: () -> (text) query;
+  unpublishIdea: (id: nat) -> (opt Idea);
+  updateIdea: (id: nat, input: IdeaInput) -> (opt Idea);
+}
